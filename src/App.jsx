@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import Login from "./pages/Login";
 import {
   LayoutDashboard,
   FileText,
@@ -82,6 +83,7 @@ const stats = [
 
 function App() {
   const [activePage, setActivePage] = useState("Dashboard");
+const [showLogin, setShowLogin] = useState(true);
   const [search, setSearch] = useState("");
   const [mobileMenu, setMobileMenu] = useState(false);
   const [reports, setReports] = useState(initialReports);
@@ -103,8 +105,12 @@ function App() {
     setMobileMenu(false);
   }
 
-  return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+  if (showLogin) {
+  return <Login />;
+}
+
+return (
+  <div className="min-h-screen bg-slate-50 text-slate-900">
       <aside
         className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-slate-950 text-white transition-transform md:translate-x-0 ${
           mobileMenu ? "translate-x-0" : "-translate-x-full"
