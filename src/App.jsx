@@ -14,7 +14,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 
-const reports = [
+const initialReports = [
   {
     id: "CT-1024",
     title: "Broken streetlight",
@@ -84,6 +84,7 @@ function App() {
   const [activePage, setActivePage] = useState("Dashboard");
   const [search, setSearch] = useState("");
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [reports, setReports] = useState(initialReports);
 
   const navigation = [
     { label: "Dashboard", icon: LayoutDashboard },
@@ -350,17 +351,41 @@ function App() {
               <form
                 className="mt-8 space-y-5"
                 onSubmit={(event) => {
-                  event.preventDefault();
-                  alert(
-                    "This is a frontend prototype. Connect the backend to save reports."
-                  );
-                }}
+  event.preventDefault();
+
+  const form = event.currentTarget;
+  const formData = new FormData(form);
+
+  const newReport = {
+    id: `CT-${1021 + reports.length}`,
+    title: formData.get("title").trim(),
+    category: formData.get("category"),
+    location: formData.get("location").trim(),
+    description: formData.get("description").trim(),
+    status: "Pending",
+    date: new Date().toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }),
+  };
+
+  setReports((currentReports) => [
+    newReport,
+    ...currentReports,
+  ]);
+
+  form.reset();
+  alert("Report submitted successfully!");
+  openPage("Dashboard");
+}}
               >
                 <div>
                   <label className="mb-2 block text-sm font-semibold">
                     Issue title *
                   </label>
                   <input
+                    name="title"
                     required
                     placeholder="e.g. Broken streetlight near the park"
                     className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100"
@@ -373,6 +398,7 @@ function App() {
                       Category *
                     </label>
                     <select
+                      name="category"
                       required
                       defaultValue=""
                       className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-teal-600"
@@ -393,6 +419,7 @@ function App() {
                       Location *
                     </label>
                     <input
+                      name="location"
                       required
                       placeholder="Area or street"
                       className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-teal-600"
@@ -405,6 +432,7 @@ function App() {
                     Description *
                   </label>
                   <textarea
+                    name="description"
                     required
                     rows={5}
                     placeholder="Describe the issue and where it occurs..."
