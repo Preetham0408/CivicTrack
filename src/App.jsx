@@ -105,9 +105,18 @@ const [showLogin, setShowLogin] = useState(true);
     setMobileMenu(false);
   }
 
-  if (showLogin) {
-  return <Login />;
+  
+if (showLogin) {
+  return (
+    <Login
+      onLogin={() => {
+        setShowLogin(false);
+        setActivePage("Dashboard");
+      }}
+    />
+  );
 }
+
 
 return (
   <div className="min-h-screen bg-slate-50 text-slate-900">
