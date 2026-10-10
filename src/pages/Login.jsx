@@ -1,7 +1,7 @@
-
+import AuthForm from "../components/AuthForm";
 import "./Login.css";
 
-export default function Login() {
+export default function Login({ onLogin }) {
   return (
     <main className="login-page">
       <section className="login-intro">
@@ -52,13 +52,7 @@ export default function Login() {
             Welcome back! Enter your account details to continue.
           </p>
 
-          <div className="auth-form-placeholder">
-            <p>Authentication form will appear here.</p>
-            <p>
-              We'll connect Person 3's AuthForm component
-              after their branch is pushed.
-            </p>
-          </div>
+          <AuthForm onLogin={onLogin} />
 
           <p className="login-security-note">
             Your community starts with you.
